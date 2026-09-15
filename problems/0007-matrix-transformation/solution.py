@@ -10,8 +10,9 @@ def transform_matrix(A, T, S) -> torch.Tensor:
     T_t = torch.as_tensor(T, dtype=torch.float)
     S_t = torch.as_tensor(S, dtype=torch.float)
     # Your implementation here
-    if A_t.size !=A_t.size or S_t.size !=S_t.size:
+    if A_t.size(0) != A_t.size(1) or S_t.size(0) != S_t.size(1):
         return -1
+
     try:
         T_t_1 = torch.linalg.inv(T_t)
         _ = torch.linalg.inv(S_t)
