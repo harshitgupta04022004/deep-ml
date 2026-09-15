@@ -1,24 +1,23 @@
-import numpy as np
+import torch
 
-def transform_matrix(
-    A: list[list[int|float]], 
-    T: list[list[int|float]], 
-    S: list[list[int|float]]
-) -> list[list[int|float]] | int:
-
-    A_arr = np.array(A)
-    T_arr = np.array(T)
-    S_arr = np.array(S)
-
-    if T_arr.shape != T_arr.shape or S_arr.shape != S_arr.shape:
+def transform_matrix(A, T, S) -> torch.Tensor:
+    """
+    Perform the change-of-basis transform T⁻¹ A S and round to 3 decimals using PyTorch.
+    Inputs A, T, S can be Python lists, NumPy arrays, or torch Tensors.
+    Returns a 2×2 tensor or tensor(-1.) if T or S is singular.
+    """
+    A_t = torch.as_tensor(A, dtype=torch.float)
+    T_t = torch.as_tensor(T, dtype=torch.float)
+    S_t = torch.as_tensor(S, dtype=torch.float)
+    # Your implementation here
+    if A_t.size !=A_t.size or S_t.size !=S_t.size:
         return -1
-
     try:
-        T_inv = np.linalg.inv(T_arr)
-        _ = np.linalg.inv(S_arr) 
-        
-        result = T_inv @ A_arr @ S_arr
-        return result.tolist()
-        
-    except np.linalg.LinAlgError:
+        T_t_1 = torch.linalg.inv(T_t)
+        _ = torch.linalg.inv(S_t)
+        result = T_t_1@A@S
+        return result
+    except  torch.linalg.LinAlgError:
         return -1
+    
+    
