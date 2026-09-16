@@ -5,4 +5,4 @@ def softmax(scores: list[float]) -> list[float]:
     scores_t = np.array(scores)
     mx = np.max(scores_t)
     sm = np.sum(np.exp(scores_t-mx))
-    return np.exp(scores_t-mx)/sm
+    return (np.exp(scores_t-mx)/sm).tolist()
